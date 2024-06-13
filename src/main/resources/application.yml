@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: showsquare
+  sql:
+    init:
+      mode: always
+      continue-on-error: false
+      schema-locations: classpath*:db/schema.sql
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/showsquare
+#    username: postgres
+#    password: postgres
+#    driver-class-name: org.postgresql.Driver
+#  jpa:
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;
+    username: marcia
+    password:
+  jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
+      ddl-auto: create
+
+#app:
+#  host: https://webauthn-demo-tq.fly.dev
+app:
+  host: localhost
