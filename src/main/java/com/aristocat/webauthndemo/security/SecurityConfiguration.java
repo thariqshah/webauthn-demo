@@ -1,7 +1,7 @@
-package com.aristocat.showsquare.security;
+package com.aristocat.webauthndemo.security;
 
-import com.aristocat.showsquare.models.User;
-import com.aristocat.showsquare.models.UserAuthenticationToken;
+import com.aristocat.webauthndemo.models.User;
+import com.aristocat.webauthndemo.models.UserAuthenticationToken;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package com.aristocat.showsquare.controller;
+package com.aristocat.webauthndemo.controller;
 
 
 import org.springframework.web.bind.annotation.GetMapping;

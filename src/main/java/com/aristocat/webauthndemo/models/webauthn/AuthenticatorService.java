@@ -1,6 +1,6 @@
-package com.aristocat.showsquare.models.webauthn;
+package com.aristocat.webauthndemo.models.webauthn;
 
-import com.aristocat.showsquare.models.User;
+import com.aristocat.webauthndemo.models.User;
 import com.webauthn4j.WebAuthnManager;
 import com.webauthn4j.authenticator.AuthenticatorImpl;
 import com.webauthn4j.converter.AttestationObjectConverter;
@@ -12,7 +12,6 @@ import com.webauthn4j.data.client.Origin;
 import com.webauthn4j.data.client.challenge.DefaultChallenge;
 import com.webauthn4j.server.ServerProperty;
 import com.webauthn4j.validator.exception.ValidationException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;

@@ -1,16 +1,15 @@
-package com.aristocat.showsquare.controller;
+package com.aristocat.webauthndemo.controller;
 
 
-import com.aristocat.showsquare.models.LoginCode;
-import com.aristocat.showsquare.models.LoginCodeRepository;
-import com.aristocat.showsquare.models.User;
-import com.aristocat.showsquare.models.UserRepository;
-import com.aristocat.showsquare.models.webauthn.AuthenticatorService;
-import com.aristocat.showsquare.models.webauthn.CredentialsRegistration;
-import com.aristocat.showsquare.models.webauthn.CredentialsVerification;
-import com.aristocat.showsquare.models.webauthn.UserAuthenticatorRepository;
-import com.aristocat.showsquare.security.SecurityConfiguration;
-import com.mailjet.client.errors.MailjetException;
+import com.aristocat.webauthndemo.models.LoginCode;
+import com.aristocat.webauthndemo.models.LoginCodeRepository;
+import com.aristocat.webauthndemo.models.User;
+import com.aristocat.webauthndemo.models.UserRepository;
+import com.aristocat.webauthndemo.models.webauthn.AuthenticatorService;
+import com.aristocat.webauthndemo.models.webauthn.CredentialsRegistration;
+import com.aristocat.webauthndemo.models.webauthn.CredentialsVerification;
+import com.aristocat.webauthndemo.models.webauthn.UserAuthenticatorRepository;
+import com.aristocat.webauthndemo.security.SecurityConfiguration;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;

@@ -1,4 +1,4 @@
-package com.aristocat.showsquare.models.webauthn;
+package com.aristocat.webauthndemo.models.webauthn;
 
 public record CredentialsRegistration(String name, AuthenticatorCredentials credentials) {
 

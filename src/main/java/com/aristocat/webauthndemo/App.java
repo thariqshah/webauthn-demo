@@ -1,13 +1,13 @@
-package com.aristocat.showsquare;
+package com.aristocat.webauthndemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ShowsquareApplication {
+public class App {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ShowsquareApplication.class, args);
+		SpringApplication.run(App.class, args);
 	}
 
 }

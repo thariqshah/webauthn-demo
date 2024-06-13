@@ -1,4 +1,4 @@
-package com.aristocat.showsquare.models;
+package com.aristocat.webauthndemo.models;
 
 import jakarta.persistence.*;
 

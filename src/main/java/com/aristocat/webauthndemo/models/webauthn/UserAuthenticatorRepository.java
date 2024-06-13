@@ -1,6 +1,6 @@
-package com.aristocat.showsquare.models.webauthn;
+package com.aristocat.webauthndemo.models.webauthn;
 
-import com.aristocat.showsquare.models.User;
+import com.aristocat.webauthndemo.models.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

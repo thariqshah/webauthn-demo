@@ -1,13 +1,13 @@
 spring:
   application:
-    name: showsquare
+    name: webauthn-demo
   sql:
     init:
       mode: always
       continue-on-error: false
       schema-locations: classpath*:db/schema.sql
 #  datasource:
-#    url: jdbc:postgresql://localhost:5432/showsquare
+#    url: jdbc:postgresql://localhost:5432/webauthn-demo
 #    username: postgres
 #    password: postgres
 #    driver-class-name: org.postgresql.Driver

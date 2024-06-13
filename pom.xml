@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.aristocat</groupId>
-    <artifactId>showsquare</artifactId>
+    <artifactId>webauthn-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>showsquare</name>
+    <name>webauthn-demo</name>
     <description>Playground for webauthn, htmx and fullstack spring</description>
     <properties>
         <java.version>21</java.version>
