@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
@@ -15,10 +16,11 @@
             box-shadow: 0 2px 2px -2px #888;
             margin: 2rem 0;
         }
-
-        /* Optional: Adjust spacing */
         .button-spacer {
             margin-bottom: 1rem;
+        }
+        body {
+            font-family: 'Space Mono', monospace;
         }
     </style>
 </head>
@@ -107,7 +109,9 @@
     };
 
     document.getElementById("login-webauthn").addEventListener("click", async () => {
+        console.log("inside method trigger");
         const credentialsResponse = await navigator.credentials.get(credentialsRequestOptions);
+        console.log(credentialsResponse);
         const serializeable = {
             authenticatorAttachment: credentialsResponse.authenticatorAttachment,
             id: credentialsResponse.id,
@@ -119,6 +123,8 @@
             },
             type: credentialsResponse.type
         };
+        console.log("serialized");
+        console.log(serializeable);
         fetch("/passkey/login",
             {
                 method: "POST",

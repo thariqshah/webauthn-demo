@@ -24,7 +24,7 @@ spring:
       database-platform: org.hibernate.dialect.H2Dialect
       ddl-auto: create
 
-#app:
-#  host: https://webauthn-demo-tq.fly.dev
 app:
-  host: localhost
+  host: https://webauthn-demo-tq.fly.dev
+#app:
+#  host: localhost

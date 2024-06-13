@@ -1,7 +1,6 @@
 package com.aristocat.showsquare.controller;
 
 
-import com.aristocat.showsquare.email.EmailConfiguration;
 import com.aristocat.showsquare.models.LoginCode;
 import com.aristocat.showsquare.models.LoginCodeRepository;
 import com.aristocat.showsquare.models.User;
@@ -63,9 +62,8 @@ public class WebController {
     }
 
     @PostMapping("/user/register")
-    public String registerAction(@Validated User user, RedirectAttributes redirectAttributes) throws MailjetException {
+    public String registerAction(@Validated User user, RedirectAttributes redirectAttributes)  {
         var savedUser = userRepository.save(user);
-//        emailConfiguration.sendEmail("thariqshah@gmail.com",user.getEmail(),"http://localhost:8080/login-email?token-"+savedUser.getId());
         redirectAttributes.addFlashAttribute("alert", "You have been registered");
         return "redirect:/";
     }

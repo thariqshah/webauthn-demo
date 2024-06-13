@@ -14,6 +14,7 @@ import com.webauthn4j.server.ServerProperty;
 import com.webauthn4j.validator.exception.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
@@ -24,25 +25,24 @@ import java.util.Base64;
 @Component
 public class AuthenticatorService {
 
+	@Value("${app.host}")
+	private String host;
+
 	private final UserAuthenticatorRepository repository;
 
 	private final WebAuthnManager webAuthnManager = WebAuthnManager.createNonStrictWebAuthnManager();
 
-	private final HttpServletRequest request;
 
 	private final AttestationObjectConverter attestationConverter = new AttestationObjectConverter(
 			new ObjectConverter());
 
-	public AuthenticatorService(UserAuthenticatorRepository repository, HttpServletRequest request) {
+	public AuthenticatorService(UserAuthenticatorRepository repository) {
 		this.repository = repository;
-		this.request = request;
 	}
 
 	public void saveCredentials(CredentialsRegistration registration, User user) {
 		var attestationObject = Base64.getUrlDecoder()
 			.decode(registration.credentials().response().attestationObject());
-		// TODO: you should absolutely validate the attestation, not trust it blindly!
-
 		var serializedAuthenticator = new UserAuthenticator(registration.credentials().id(), user, registration.name(),
 				attestationObject);
 		repository.save(serializedAuthenticator);
@@ -93,11 +93,11 @@ public class AuthenticatorService {
 	}
 
 	private String getRpId() {
-		return UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString()).build().getHost();
+		return UriComponentsBuilder.fromHttpUrl(host).build().getHost();
 	}
 
 	private Origin getOrigin() {
-		var origin = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString())
+		var origin = UriComponentsBuilder.fromHttpUrl(host)
 			.replacePath(null)
 			.toUriString();
 		return new Origin(origin);
