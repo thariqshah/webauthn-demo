@@ -42,7 +42,6 @@ public class SecurityConfiguration {
         securityContextRepository.saveContext(newContext, request, response);
     }
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(authorize -> {
@@ -51,7 +50,6 @@ public class SecurityConfiguration {
                     authorize.requestMatchers("/user/login").permitAll();
                     authorize.requestMatchers("/user/register").permitAll();
                     authorize.requestMatchers("/passkey/login").permitAll();
-                    authorize.requestMatchers("/login-mail").permitAll(); // TODO: consistent
                     authorize.requestMatchers("/style.css").permitAll();
                     authorize.requestMatchers("/favicon.ico").permitAll();
                     authorize.anyRequest().authenticated();

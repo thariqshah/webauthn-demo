@@ -1,6 +1,10 @@
-package com.aristocat.webauthndemo.models.webauthn;
+package com.aristocat.webauthndemo.webauthn;
 
 import com.aristocat.webauthndemo.models.User;
+import com.aristocat.webauthndemo.webauthn.model.CredentialsRegistration;
+import com.aristocat.webauthndemo.webauthn.model.CredentialsVerification;
+import com.aristocat.webauthndemo.webauthn.model.UserAuthenticator;
+import com.aristocat.webauthndemo.webauthn.model.UserAuthenticatorRepository;
 import com.webauthn4j.WebAuthnManager;
 import com.webauthn4j.authenticator.AuthenticatorImpl;
 import com.webauthn4j.converter.AttestationObjectConverter;
@@ -68,19 +72,14 @@ public class AuthenticatorService {
 
 		try {
 			webAuthnManager.validate(authenticationRequest, authenticationParameters);
-
-			// TODO: required per spec, to allow for authenticator clone detection, see:
+			// TODO: validate
 			// https://www.w3.org/TR/webauthn-3/#sctn-sign-counter
 			// userAuthenticator.setCounter(authenticationData.getAuthenticatorData().getSignCount());
 		}
 		catch (DataConversionException e) {
-			// If you would like to handle WebAuthn data structure parse error, please
-			// catch DataConversionException
 			throw e;
 		}
 		catch (ValidationException e) {
-			// If you would like to handle WebAuthn data validation error, please catch
-			// ValidationException
 			throw e;
 		}
 		return userAuthenticator.getUser();

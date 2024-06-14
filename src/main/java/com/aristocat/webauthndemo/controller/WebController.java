@@ -5,7 +5,10 @@ import com.aristocat.webauthndemo.models.LoginCode;
 import com.aristocat.webauthndemo.models.LoginCodeRepository;
 import com.aristocat.webauthndemo.models.User;
 import com.aristocat.webauthndemo.models.UserRepository;
-import com.aristocat.webauthndemo.models.webauthn.*;
+import com.aristocat.webauthndemo.webauthn.AuthenticatorService;
+import com.aristocat.webauthndemo.webauthn.model.CredentialsRegistration;
+import com.aristocat.webauthndemo.webauthn.model.CredentialsVerification;
+import com.aristocat.webauthndemo.webauthn.model.UserAuthenticatorRepository;
 import com.aristocat.webauthndemo.security.SecurityConfiguration;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,17 +16,14 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.web.util.UrlUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @SessionAttributes("challenge")
@@ -108,7 +108,7 @@ public class WebController {
 
     @PostMapping("/passkey/register")
     public String register(@RequestBody CredentialsRegistration credentials, @AuthenticationPrincipal User user,
-                           RedirectAttributes redirectAttributes,Model model) {
+                           RedirectAttributes redirectAttributes, Model model) {
         authenticatorService.saveCredentials(credentials, user);
         redirectAttributes.addFlashAttribute("alert", "You have registered a new passkey!");
         model.addAttribute("host", UUID.randomUUID().toString());
