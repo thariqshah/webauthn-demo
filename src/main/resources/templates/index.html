@@ -118,9 +118,7 @@
     };
 
     document.getElementById("login-webauthn").addEventListener("click", async () => {
-        console.log("inside method trigger");
         const credentialsResponse = await navigator.credentials.get(credentialsRequestOptions);
-        console.log(credentialsResponse);
         const serializeable = {
             authenticatorAttachment: credentialsResponse.authenticatorAttachment,
             id: credentialsResponse.id,
@@ -132,8 +130,6 @@
             },
             type: credentialsResponse.type
         };
-        console.log("serialized");
-        console.log(serializeable);
         fetch("/passkey/login",
             {
                 method: "POST",
