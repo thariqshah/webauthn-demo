@@ -35,9 +35,16 @@
         }
 
         function deletePasskey(passkeyId) {
-            // Example function to handle deleting a passkey
-            console.log(`Deleting passkey with ID ${passkeyId}`);
-            // Implement your delete logic here, such as making an API call
+           fetch("/passkey/delete?credential-id="+passkeyId,
+               {
+                   method: "POST",
+                   body: "{}",
+                   headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(r => {
+               window.location.href = r.url;
+           })
         }
     </script>
 </head>
@@ -88,9 +95,9 @@
                     </div>
                     <h2 class="subtitle">Passkeys</h2>
                     <ul id="passkey-list">
-                        <li th:each="keys : ${passkeyList}">
-                            <span th:text="${keys}"></span>
-                            <button class="button is-danger is-light is-small" onclick="deletePasskey(1)">
+                        <li th:each="keys : ${authenticators}">
+                            <span th:text="${keys.getCredentialsName()}"></span>
+                            <button th:data-id="${keys.getId()}" class="button is-danger is-light is-small"  onClick=deletePasskey((this.getAttribute('data-id')))>
                                 <span class="icon">
                                 <i class="fas fa-trash"></i>
                                 </span>
@@ -139,6 +146,10 @@
                 {
                     type: "public-key",
                     alg: -7
+                },
+                {
+                    type: "public-key",
+                    alg: -257
                 }
             ],
             authenticatorSelection: {

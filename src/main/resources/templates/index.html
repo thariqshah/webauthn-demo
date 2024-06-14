@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+<!--    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
@@ -29,7 +29,7 @@
     <div class="container">
         <div class="columns is-centered">
             <div class="column is-half">
-                <div th:if="${alert}" class="notification is-success">
+                <div th:if="${alert}" class="notification is-primary">
                     <button class="delete"></button>
                     <p th:text="${alert}"></p>
                 </div>

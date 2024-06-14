@@ -82,8 +82,8 @@ public class WebController {
             model.addAttribute("magicLink", host+"/user/login?code="+newCode.getId());
         }
         else {
-            redirectAttributes.addFlashAttribute("alert",
-                    "You have requested a login code for [%s]. User does not exist, please register first!"
+            model.addAttribute("alert",
+                    "%s does not exist, please register first!"
                             .formatted(email));
         }
         return "index";
@@ -140,7 +140,6 @@ public class WebController {
         model.addAttribute("username", user.getUsername());
         model.addAttribute("email", user.getEmail());
         model.addAttribute("authenticators", authenticators);
-        model.addAttribute("passkeyList", authenticators.stream().map(UserAuthenticator::getCredentialsName).collect(Collectors.toSet()));
         return "account";
     }
 
