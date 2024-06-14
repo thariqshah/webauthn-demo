@@ -128,8 +128,8 @@
                             <BP_JVM_CDS_ENABLED>true</BP_JVM_CDS_ENABLED>
                             <BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
                         </env>
-                        <name>registry.fly.io/webauthn-demo-tq:deployment-01J0AXQ0TYSXV17Z4RRGPS1GVW</name>
-                        <tags>registry.fly.io/webauthn-demo-tq:deployment-01J0AXQ0TYSXV17Z4RRGPS1GVW</tags>
+                        <name>${artifactId}:latest</name>
+                        <tags>${artifactId}:latest</tags>
                     </image>
                     <excludes>
                         <exclude>
