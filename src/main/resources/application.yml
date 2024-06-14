@@ -23,6 +23,9 @@ spring:
   jpa:
       database-platform: org.hibernate.dialect.H2Dialect
       ddl-auto: create
+  threads:
+    virtual:
+      enabled: true
 
 app:
   host: https://webauthn-demo-tq.fly.dev
