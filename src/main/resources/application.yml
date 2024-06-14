@@ -27,4 +27,4 @@ spring:
 app:
   host: https://webauthn-demo-tq.fly.dev
 #app:
-#  host: localhost
+#  host: http://localhost:8080

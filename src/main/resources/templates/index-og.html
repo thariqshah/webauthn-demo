@@ -7,7 +7,7 @@
     <title>Landing Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <!-- Google Fonts for icons -->
-    <script src="https://kit.fontawesome.com/e49ee2e165.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         .shadow-divider {
             border: 0;
@@ -29,15 +29,6 @@
     <div class="container">
         <div class="columns is-centered">
             <div class="column is-half">
-                <div th:if="${alert}" class="notification is-success">
-                    <button class="delete"></button>
-                    <p th:text="${alert}"></p>
-                </div>
-                <div th:if="${magicLink}" class="columns is-centered has-text-centered">
-                    <div class="column is-half is-centered">
-                        <a  th:href="${magicLink}" class="button is-success is-medium is-light">Click this magic link for login.</a>
-                    </div>
-                </div>
                 <div class="box">
                     <div class="columns">
                         <div class="column">
@@ -60,15 +51,15 @@
                                 </div>
                             </form>
                             <!-- Space below login button -->
-                            <div class="button-spacer"></div>
-                            <!-- New button for Login with Pass key {keylogo} using Material Icons -->
-                            <div class="field">
-                                <div class="control">
-                                    <button id="login-webauthn" class="button is-info is-fullwidth">
-                                        Login with Pass key  <i class="fas fa-key"></i>
-                                    </button>
+                                <div class="button-spacer"></div>
+                                <!-- New button for Login with Pass key {keylogo} using Material Icons -->
+                                <div class="field">
+                                    <div class="control">
+                                        <button id="login-webauthn" class="button is-info is-fullwidth">
+                                            Login with Pass key <i class="material-icons">vpn_key</i>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
                         </div>
                         <div class="column is-narrow">
                             <hr class="shadow-divider">
@@ -82,8 +73,8 @@
                                         <input class="input" type="email" name="email" placeholder="Enter your email"
                                                required>
                                         <span class="icon is-small is-left">
-                                            <i class="fas fa-envelope"></i>
-                                        </span>
+                        <i class="fas fa-envelope"></i>
+                      </span>
                                     </div>
                                 </div>
                                 <div class="field">
@@ -92,8 +83,8 @@
                                         <input class="input" type="text" name="username"
                                                placeholder="Enter your username" required>
                                         <span class="icon is-small is-left">
-                                            <i class="fas fa-user"></i>
-                                        </span>
+                        <i class="fas fa-user"></i>
+                      </span>
                                     </div>
                                 </div>
                                 <div class="field">
@@ -149,7 +140,7 @@
             .finally(() => console.log("Login with Pass key completed."));
     });
 
-    function bufferToBase64url(buffer) {
+    function bufferToBase64url (buffer) {
 
         // modified from https://github.com/github/webauthn-json/blob/main/src/webauthn-json/base64url.ts
 
@@ -170,16 +161,6 @@
         ).replace(/=/g, "");
         return base64urlString;
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-            const $notification = $delete.parentNode;
-
-            $delete.addEventListener('click', () => {
-                $notification.parentNode.removeChild($notification);
-            });
-        });
-    });
 </script>
 </body>
 </html>

@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <!-- Google Fonts Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/e49ee2e165.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
     <style>
         .tab-content {
@@ -17,6 +16,7 @@
         .tab-content.is-active {
             display: block;
         }
+
         body {
             font-family: 'Space Mono', monospace;
         }
@@ -41,11 +41,25 @@
         }
     </script>
 </head>
-<body >
+<body>
 <section class="section">
     <div class="container">
         <div class="box">
-            <h1 class="title" >Account Settings</h1>
+            <div class="level">
+                <div class="level-left">
+                    <h1 class="title">Account Settings</h1>
+                </div>
+                <div class="level-right">
+                    <form method="post" action="/logout">
+                        <button type="submit" class="button is-danger is-outlined" title="Logout">
+                            <span class="icon">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </span>
+                            <span>Logout</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
             <div class="tabs is-boxed">
                 <ul>
                     <li class="is-active" data-tab="info" onclick="showTab('info')">
@@ -74,20 +88,12 @@
                     </div>
                     <h2 class="subtitle">Passkeys</h2>
                     <ul id="passkey-list">
-                        <li>
-                            <span>Passkey 1</span>
-                            <button class="button is-danger is-small" onclick="deletePasskey(1)">
-                  <span class="icon">
-                    <i class="material-icons">delete</i>
-                  </span>
-                            </button>
-                        </li>
-                        <li>
-                            <span>Passkey 2</span>
-                            <button class="button is-danger is-small" onclick="deletePasskey(2)">
-                  <span class="icon">
-                    <i class="material-icons">delete</i>
-                  </span>
+                        <li th:each="keys : ${passkeyList}">
+                            <span th:text="${keys}"></span>
+                            <button class="button is-danger is-light is-small" onclick="deletePasskey(1)">
+                                <span class="icon">
+                                <i class="fas fa-trash"></i>
+                                </span>
                             </button>
                         </li>
                     </ul>
@@ -98,11 +104,10 @@
                         <div class="field">
                             <label class="label">New Passkey</label>
                             <div class="control has-icons-left">
-                                <input class="input" type="text" id="passkey-name" placeholder="Enter new passkey"
-                                       required>
+                                <input class="input" type="text" id="passkey-name" placeholder="Enter new passkey" required>
                                 <span class="icon is-small is-left">
-                    <i class="material-icons">vpn_key</i>
-                  </span>
+                                    <i class="fas fa-key"></i>
+                                </span>
                             </div>
                         </div>
                         <div class="field">
@@ -119,47 +124,32 @@
 
 <script th:inline="javascript">
     function registerPassKey() {
-        console.log("hello")
-
-        const name = document.getElementById("passkey-name").value
-
+        const name = document.getElementById("passkey-name").value;
         const options = {
-            // The challenge is produced by the server; see the Security Considerations
             challenge: new Uint8Array("trustmeiamanengineer", c => c.charCodeAt(0)),
-
-            // Relying Party:
             rp: {
                 name: "webauthn-demo",
                 rpId: [[${host}]]
             },
-
-            // User:
             user: {
                 id: Uint8Array.from("thariqshah@gmail.com", c => c.charCodeAt(0)),
                 name: "thariqshah",
                 displayName: "Thariq"
             },
-
-            // This Relying Party will accept either an ES256 or RS256 credential, but
-            // prefers an ES256 credential.
             pubKeyCredParams: [
                 {
                     type: "public-key",
-                    alg: -7 // "ES256" as registered in the IANA COSE Algorithms registry
+                    alg: -7
                 }
             ],
-
             authenticatorSelection: {
                 userVerification: "preferred"
             },
-
             timeout: 30000
         };
 
         navigator.credentials.create({publicKey: options})
             .then((newCredentialInfo) => {
-                console.log(newCredentialInfo)
-
                 const serializeable = {
                     authenticatorAttachment: newCredentialInfo.authenticatorAttachment,
                     id: newCredentialInfo.id,
@@ -170,9 +160,7 @@
                     },
                     type: newCredentialInfo.type
                 };
-
-                const payload = JSON.stringify({name: name, credentials: serializeable})
-                console.log(payload)
+                const payload = JSON.stringify({name: name, credentials: serializeable});
                 fetch("/passkey/register",
                     {
                         method: "POST",
@@ -181,34 +169,23 @@
                             "Content-Type": "application/json"
                         }
                     }).then(r => {
-                    console.log("success")
+                    window.location.href = r.url;
                 })
             }).catch(function (err) {
-                console.log(err)
-            alert('error', err)
+            console.log(err);
+            alert('error', err);
         });
-        function bufferToBase64url (buffer) {
 
-            // modified from https://github.com/github/webauthn-json/blob/main/src/webauthn-json/base64url.ts
-
+        function bufferToBase64url(buffer) {
             const byteView = new Uint8Array(buffer);
             let str = "";
             for (const charCode of byteView) {
                 str += String.fromCharCode(charCode);
             }
-
-            // Binary string to base64
             const base64String = btoa(str);
-
-            // Base64 to base64url
-            // We assume that the base64url string is well-formed.
-            const base64urlString = base64String.replace(/\+/g, "-").replace(
-                /\//g,
-                "_",
-            ).replace(/=/g, "");
+            const base64urlString = base64String.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
             return base64urlString;
         }
-
     }
 </script>
 </body>

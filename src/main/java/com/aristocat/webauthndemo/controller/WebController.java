@@ -5,10 +5,7 @@ import com.aristocat.webauthndemo.models.LoginCode;
 import com.aristocat.webauthndemo.models.LoginCodeRepository;
 import com.aristocat.webauthndemo.models.User;
 import com.aristocat.webauthndemo.models.UserRepository;
-import com.aristocat.webauthndemo.models.webauthn.AuthenticatorService;
-import com.aristocat.webauthndemo.models.webauthn.CredentialsRegistration;
-import com.aristocat.webauthndemo.models.webauthn.CredentialsVerification;
-import com.aristocat.webauthndemo.models.webauthn.UserAuthenticatorRepository;
+import com.aristocat.webauthndemo.models.webauthn.*;
 import com.aristocat.webauthndemo.security.SecurityConfiguration;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @SessionAttributes("challenge")
@@ -60,32 +58,30 @@ public class WebController {
         return "index";
     }
 
+
     @PostMapping("/user/register")
     public String registerAction(@Validated User user, RedirectAttributes redirectAttributes)  {
         var savedUser = userRepository.save(user);
-        redirectAttributes.addFlashAttribute("alert", "You have been registered");
+        redirectAttributes.addFlashAttribute("alert", """
+        Hello %s,
+        You have been registered. Login with email and add passkeys""".formatted(user.getUsername())
+        );
         return "redirect:/";
     }
 
     @PostMapping("/user/login")
-    public String requestLoginEmail(String email, RedirectAttributes redirectAttributes,
-                                    HttpServletRequest request) {
+    public String requestLoginEmail(String email, RedirectAttributes redirectAttributes,Model model) {
         var user = userRepository.findUserByEmail(email);
         if (user.isPresent()) {
             var newCode = loginCodeRepository.save(new LoginCode(user.get()));
-            var url = UriComponentsBuilder.fromHttpUrl(UrlUtils.buildFullRequestUrl(request))
-                    .queryParam("code", newCode.getId())
-                    .toUriString();
-            log.info("You got Mail"+"Login to 🐶 WAN demo. Follow this link to log in: " + url, url);
-            redirectAttributes.addFlashAttribute("alert",
-                    "You have requested a login code for [%s]. Check your inbox!".formatted(email));
+            model.addAttribute("magicLink", host+"/user/login?code="+newCode.getId());
         }
         else {
             redirectAttributes.addFlashAttribute("alert",
                     "You have requested a login code for [%s]. User does not exist, please register first!"
                             .formatted(email));
         }
-        return "redirect:/";
+        return "index";
     }
 
     @GetMapping("/user/login")
@@ -139,6 +135,7 @@ public class WebController {
         model.addAttribute("username", user.getUsername());
         model.addAttribute("email", user.getEmail());
         model.addAttribute("authenticators", authenticators);
+        model.addAttribute("passkeyList", authenticators.stream().map(UserAuthenticator::getCredentialsName).collect(Collectors.toSet()));
         return "account";
     }
 
