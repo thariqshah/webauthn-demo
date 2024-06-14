@@ -61,11 +61,16 @@ public class WebController {
 
     @PostMapping("/user/register")
     public String registerAction(@Validated User user, RedirectAttributes redirectAttributes)  {
-        var savedUser = userRepository.save(user);
-        redirectAttributes.addFlashAttribute("alert", """
-        Hello %s,
-        You have been registered. Login with email and add passkeys""".formatted(user.getUsername())
-        );
+        if(!userRepository.existsUserByEmail(user.getEmail()) && !userRepository.existsUserByUsername(user.getUsername())) {
+            userRepository.save(user);
+            redirectAttributes.addFlashAttribute("alert", """
+                    Hello %s,
+                    You have been registered. Login with email and add passkeys""".formatted(user.getUsername())
+            );
+        }else {
+            redirectAttributes.addFlashAttribute("alert",
+                    "You are already registered. Login with email and add passkeys. Or Use a different username/email");
+        }
         return "redirect:/";
     }
 

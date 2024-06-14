@@ -129,12 +129,11 @@
             challenge: new Uint8Array("trustmeiamanengineer", c => c.charCodeAt(0)),
             rp: {
                 name: "webauthn-demo",
-                rpId: [[${host}]]
             },
             user: {
-                id: Uint8Array.from("thariqshah@gmail.com", c => c.charCodeAt(0)),
-                name: "thariqshah",
-                displayName: "Thariq"
+                id: Uint8Array.from([[${email}]], c => c.charCodeAt(0)),
+                name: [[${username}]],
+                displayName: [[${username}]]
             },
             pubKeyCredParams: [
                 {
