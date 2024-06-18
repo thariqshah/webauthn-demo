@@ -32,8 +32,6 @@ List any prerequisites or dependencies that users need to have installed before 
 ```
 ## Usage
 
-Explain how to use your WebAuthn demo, including any special instructions or setup required.
-
 - Goto live demo
 - Register with email and username
 - login with email.
